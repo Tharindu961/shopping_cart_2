@@ -34,15 +34,15 @@
 				while($row = mysqli_fetch_array($result))
 				{
 					?>
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<form method="post" action="shop.php?action=add&id=<?php echo $row["id"]; ?>">
 						<div style="border: 1px solid #eaeaec; margin: -1px 19px 3px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); padding: 10px;" align="center">
 						<img src="<?php echo $row["image"]; ?> class="img-responsive">
 						<h5 class="text-info"><?php echo $row["p_name"]; ?></h5>
 						<h5 class="text-danger">$ <?php echo $row["price"]; ?></h5>
 						<input type="text" name="quantity" class="form-control" value="1">
-						<input type="hidden" name="hidden" value="<?php $row["p_name"]; ?>">
-						<input type="hidden" name="hidden" value="<?php $row["price"]; ?>">
+						<input type="hidden" name="hidden_name" value="<?php $row["p_name"]; ?>">
+						<input type="hidden" name="hidden_price" value="<?php $row["price"]; ?>">
 						<input type="submit" name="add" style="margin-top: 5px;" class="btn btn-default" value="Add to Bag">
 					</div>
 					</form>
@@ -64,14 +64,17 @@
 				</tr>
 				<?php
 				if (!empty($_SESSION["cart"])) {
+
 					$total = 0;
 					foreach ($_SESSION["cart"] as $keys => $values) {
+						
 						?>
-						<tr><?php echo $values["item_name"]; ?></tr>
-						<tr><?php echo $values["item_quantity"]; ?></tr>
-						<tr>$ <?php echo $values["product_price"]; ?></tr>
-						<tr>$ <?php echo number_format($values["item_quantity"] * $values["product_price"], 2); ?></tr>
-						<td><a href="shop.php?action=delete&id=<?php echo $values["product_id"]; ?>"><span class="text-danger">X</span></a>></td>
+						<tr>
+						<td><?php echo $values["item_name"]; ?></td>
+						<td><?php echo $values["item_quantity"]; ?></td>
+						<td>$ <?php echo $values["product_price"]; ?></td>
+						<td>$ <?php echo number_format($values["item_quantity"] * $values["product_price"], 2); ?></td>
+						<td><a href="shop.php?action=delete&id=<?php echo $values["product_id"]; ?>"><span class="text-danger">X</span></a></td>
 						<?php
 						$total = $total + ($values["item_quantity"] * $values["product_price"]);
 					}
